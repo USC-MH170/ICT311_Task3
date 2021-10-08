@@ -11,6 +11,7 @@
         android:theme="@style/Theme.ICT311_Task3">
         <activity
             android:name=".MainActivity"
+            android:label="@string/app_display_name"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
