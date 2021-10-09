@@ -7,7 +7,21 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.ict311_task3.MainFragment"
+        android:name="com.example.ict311_task3.ListUI"
         android:label="main_fragment"
-        tools:layout="@layout/main_fragment" />
+        tools:layout="@layout/main_fragment" >
+        <action
+            android:id="@+id/action_edit_workout"
+            app:destination="@id/itemUI" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemUI"
+        android:name="com.example.ict311_task3.ItemUI"
+        android:label="item_u_i_fragment"
+        tools:layout="@layout/item_u_i_fragment" >
+        <argument
+            android:name="workoutID"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

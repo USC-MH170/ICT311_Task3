@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ict311_task3.data.WorkoutEntity
 import com.example.ict311_task3.databinding.ListItemBinding
 
-class ListUIAdapter(private val workoutList: List<WorkoutEntity>):
+class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
+    private val listner: ListItemListener):
     RecyclerView.Adapter<ListUIAdapter.ViewHolder>() {
 
         inner class ViewHolder(itemView: View):
@@ -25,8 +26,16 @@ class ListUIAdapter(private val workoutList: List<WorkoutEntity>):
         val workout =workoutList[position]
         with(holder.binding) {
             workoutText.text = workout.text
+            root.setOnClickListener{
+                listner.onItemClick(workout.id)
+            }
         }
     }
 
     override fun getItemCount() = workoutList.size
+
+
+    interface ListItemListener {
+        fun onItemClick(workoutID: Int)
+    }
 }
