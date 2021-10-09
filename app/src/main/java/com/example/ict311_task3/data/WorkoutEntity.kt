@@ -11,9 +11,8 @@ data class WorkoutEntity (
     @PrimaryKey(autoGenerate = true)
     var id:Int,
     var date: Date,
-    var title: String,
-    var place: String
+    var title: String
         ) {
-    constructor(): this(NEW_WORKOUT_ID, Date(), "", "")
-    constructor(date: Date, text: String): this(NEW_WORKOUT_ID,  date, text, text)
+    constructor(): this(NEW_WORKOUT_ID, Date(), "")
+    constructor(date: Date, text: String): this(NEW_WORKOUT_ID,  date, text)
 }

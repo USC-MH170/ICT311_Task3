@@ -23,9 +23,9 @@ class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val workout =workoutList[position]
+        val workout = workoutList[position]
         with(holder.binding) {
-            workoutText.text = workout.text
+            workoutText.text = workout.title
             root.setOnClickListener{
                 listner.onItemClick(workout.id)
             }
