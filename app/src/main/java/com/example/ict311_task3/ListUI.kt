@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ict311_task3.data.WorkoutEntity
 import com.example.ict311_task3.databinding.MainFragmentBinding
 
 class ListUI : Fragment(),
@@ -45,10 +46,13 @@ class ListUI : Fragment(),
             adapter = ListUIAdapter(it, this@ListUI)
             binding.recyclerView.adapter = adapter
             binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+
+            val selectedWorkout = savedInstanceState?.getParcelableArrayList<WorkoutEntity>(SELECTED_WORKOUT_KEY)
+            adapter.selectedWorkouts.addAll(selectedWorkout ?: emptyList())
+
+
+
         })
-
-
-
 
         return binding.root
     }
@@ -104,4 +108,12 @@ class ListUI : Fragment(),
     override fun onItemSelectionChanged() {
         requireActivity().invalidateOptionsMenu()
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (this::adapter.isInitialized) {
+            outState.putParcelableArrayList(SELECTED_WORKOUT_KEY, adapter.selectedWorkouts)
+        }
+        super.onSaveInstanceState(outState)
+    }
+
 }

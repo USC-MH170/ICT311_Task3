@@ -55,7 +55,11 @@ class ItemUI : Fragment() {
         )
 
         viewModel.currentWorkout.observe(viewLifecycleOwner, Observer {
-            binding.editor.setText(it.title)
+            val savedString = savedInstanceState?.getString(WORKOUT_TEXT_KEY)
+            val cursorPosition = savedInstanceState?.getInt(CURSOR_POSITION_KEY) ?: 0
+            //check is the below title in WorkoutEntity is also title in tute as he used text instead
+            binding.editor.setText(savedString ?: it.title)
+            binding.editor.setSelection(cursorPosition)
         })
         viewModel.getWorkoutById(args.workoutID)
 
@@ -84,4 +88,14 @@ class ItemUI : Fragment() {
         findNavController().navigateUp()
         return true
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        with(binding.editor) {
+            outState.putString(WORKOUT_TEXT_KEY, text.toString())
+            outState.putInt(CURSOR_POSITION_KEY, selectionStart)
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+
 }
