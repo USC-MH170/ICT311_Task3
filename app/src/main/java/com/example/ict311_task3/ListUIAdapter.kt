@@ -29,7 +29,7 @@ class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
         with(holder.binding) {
             workoutText.text = workout.title
             root.setOnClickListener{
-                listner.onItemClick(workout.id)
+                listner.editWorkout(workout.id)
             }
             fab.setOnClickListener{
                 if (selectedWorkouts.contains(workout)) {
@@ -55,7 +55,7 @@ class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
 
 
     interface ListItemListener {
-        fun onItemClick(workoutID: Int)
+        fun editWorkout(workoutID: Int)
         fun onItemSelectionChanged()
     }
 }

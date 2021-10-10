@@ -30,4 +30,23 @@ class ItemUIViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun updateWorkout() {
+        currentWorkout.value?.let {
+            it.title.trim()
+            if (it.id == NEW_WORKOUT_ID && it.title.isEmpty()) {
+                return
+            }
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    if (it.title.isEmpty()) {
+                        database?.workoutDoa()?.deleteWorkoutData(it)
+                    } else {
+                        database?.workoutDoa()?.insertWorkout(it)
+                    }
+                }
+            }
+        }
+    }
+
+
 }

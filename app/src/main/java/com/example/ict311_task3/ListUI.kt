@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ict311_task3.databinding.MainFragmentBinding
-import kotlin.math.log
 
 class ListUI : Fragment(),
     ListUIAdapter.ListItemListener{
@@ -29,6 +28,7 @@ class ListUI : Fragment(),
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         setHasOptionsMenu(true)
+        requireActivity().title = getString(R.string.app_display_name)
         binding = MainFragmentBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(ListUIViewModel::class.java)
 
@@ -46,6 +46,9 @@ class ListUI : Fragment(),
             binding.recyclerView.adapter = adapter
             binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         })
+
+
+
 
         return binding.root
     }
@@ -73,10 +76,9 @@ class ListUI : Fragment(),
     }
 
     private fun addNewWorkout(): Boolean {
-
-        //change here to add new workout
+        editWorkout(NEW_WORKOUT_ID)
         //below is located in ListUIViewModel + may need to delete when submitting
-        viewModel.addSampleData()
+        //viewModel.addWorkout()
         return true
     }
 
@@ -93,7 +95,7 @@ class ListUI : Fragment(),
 
 
 
-    override fun onItemClick(workoutID: Int) {
+    override fun editWorkout(workoutID: Int) {
         Log.i(TAG, "onItemClick: received workout id $workoutID")
         val action = ListUIDirections.actionEditWorkout(workoutID)
         findNavController().navigate(action)

@@ -26,6 +26,17 @@ class ListUIViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun addWorkout() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+
+
+            }
+        }
+    }
+
+
+
     fun deleteWorkout(selectedWorkouts: List<WorkoutEntity>) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
