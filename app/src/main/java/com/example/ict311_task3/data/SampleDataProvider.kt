@@ -14,9 +14,9 @@ class SampleDataProvider {
     }
 
     fun getWorkout() = arrayListOf(
-        WorkoutEntity(1, getDate(0), sampleText1),
-        WorkoutEntity(2, getDate(1), sampleText2),
-        WorkoutEntity(3, getDate(2), sampleText3)
+        WorkoutEntity(getDate(0), sampleText1),
+        WorkoutEntity(getDate(1), sampleText2),
+        WorkoutEntity(getDate(2), sampleText3)
     )
     }
 }

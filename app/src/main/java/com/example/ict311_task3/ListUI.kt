@@ -2,9 +2,7 @@ package com.example.ict311_task3
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -28,7 +26,7 @@ class ListUI : Fragment(),
     ): View? {
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-
+        setHasOptionsMenu(true)
         binding = MainFragmentBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(ListUIViewModel::class.java)
 
@@ -40,7 +38,7 @@ class ListUI : Fragment(),
             addItemDecoration(divider)
         }
 
-        viewModel.workoutList.observe(viewLifecycleOwner, Observer {
+        viewModel.workoutList?.observe(viewLifecycleOwner, Observer {
             Log.i("workoutLogging", it.toString())
             adapter = ListUIAdapter(it, this@ListUI)
             binding.recyclerView.adapter = adapter
@@ -50,9 +48,43 @@ class ListUI : Fragment(),
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val menuId =
+            if (this::adapter.isInitialized &&
+                    adapter.selectedWorkouts.isNotEmpty()
+            ) {
+                R.menu.menu_main_selected_items
+            } else {
+                R.menu.menu_main
+            }
+        inflater.inflate(menuId, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.new_workout -> addNewWorkout()
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun addNewWorkout(): Boolean {
+
+        //change here to add new workout
+        //below is located in ListUIViewModel + may need to delete when submitting
+        viewModel.addSampleData()
+        return true
+    }
+
+
+
     override fun onItemClick(workoutID: Int) {
         Log.i(TAG, "onItemClick: received workout id $workoutID")
         val action = ListUIDirections.actionEditWorkout(workoutID)
         findNavController().navigate(action)
+    }
+
+    override fun onItemSelectionChanged() {
+        requireActivity().invalidateOptionsMenu()
     }
 }

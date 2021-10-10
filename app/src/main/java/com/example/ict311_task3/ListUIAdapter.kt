@@ -11,6 +11,8 @@ class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
     private val listner: ListItemListener):
     RecyclerView.Adapter<ListUIAdapter.ViewHolder>() {
 
+    val selectedWorkouts = arrayListOf<WorkoutEntity>()
+
         inner class ViewHolder(itemView: View):
             RecyclerView.ViewHolder(itemView){
             val binding = ListItemBinding.bind(itemView)
@@ -29,6 +31,23 @@ class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
             root.setOnClickListener{
                 listner.onItemClick(workout.id)
             }
+            fab.setOnClickListener{
+                if (selectedWorkouts.contains(workout)) {
+                    selectedWorkouts.remove(workout)
+                    fab.setImageResource(R.drawable.ic_note)
+                } else {
+                    selectedWorkouts.add(workout)
+                    fab.setImageResource(R.drawable.ic_check)
+                }
+                listner.onItemSelectionChanged()
+            }
+            fab.setImageResource(
+                if (selectedWorkouts.contains(workout)) {
+                    R.drawable.ic_check
+                } else {
+                    R.drawable.ic_note
+                }
+            )
         }
     }
 
@@ -37,5 +56,6 @@ class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
 
     interface ListItemListener {
         fun onItemClick(workoutID: Int)
+        fun onItemSelectionChanged()
     }
 }
