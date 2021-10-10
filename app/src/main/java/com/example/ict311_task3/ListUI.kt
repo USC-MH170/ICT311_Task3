@@ -1,6 +1,8 @@
 package com.example.ict311_task3
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -63,6 +65,8 @@ class ListUI : Fragment(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.delete_workout -> deleteWorkout()
+            //links to function below which will need updating
             R.id.new_workout -> addNewWorkout()
             else -> return super.onOptionsItemSelected(item)
         }
@@ -75,6 +79,17 @@ class ListUI : Fragment(),
         viewModel.addSampleData()
         return true
     }
+
+    private fun deleteWorkout(): Boolean {
+        viewModel.deleteWorkout(adapter.selectedWorkouts)
+        Handler(Looper.getMainLooper()).postDelayed({
+            adapter.selectedWorkouts.clear()
+            requireActivity().invalidateOptionsMenu()
+        }, 100)
+
+        return true
+    }
+
 
 
 

@@ -1,10 +1,7 @@
 package com.example.ict311_task3.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 
 @Dao
@@ -21,11 +18,13 @@ interface WorkoutDao {
     fun getAll(): LiveData<List<WorkoutEntity>>
 
     @Query("SELECT * FROM workout WHERE id = :id")
-    fun getNoteById(id: Int): WorkoutEntity?
+    fun getWorkoutById(id: Int): WorkoutEntity?
 
     @Query("SELECT COUNT(*) from workout")
     fun getCount(): Int
 
+    @Delete
+    fun deleteWorkout(selectedWorkouts: List<WorkoutEntity>): Int
 
 
 }

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.ict311_task3.databinding.ItemUIFragmentBinding
@@ -32,9 +33,9 @@ class ItemUI : Fragment() {
         }
 
         setHasOptionsMenu(true)
-
+        viewModel = ViewModelProvider(this).get(ItemUIViewModel::class.java)
         binding = ItemUIFragmentBinding.inflate(inflater, container, false)
-        binding.editor.setText("You selected workout number ${args.workoutID}")
+        binding.editor.setText("")
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -44,6 +45,12 @@ class ItemUI : Fragment() {
                 }
             }
         )
+
+        viewModel.currentWorkout.observe(viewLifecycleOwner, Observer {
+            binding.editor.setText(it.title)
+        })
+        viewModel.getWorkoutById(args.workoutID)
+
 
         return binding.root
     }
@@ -55,14 +62,8 @@ class ItemUI : Fragment() {
         }
     }
 
-private fun saveAndReturn(): Boolean {
-    findNavController().navigateUp()
-    return true
-}
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ItemUIViewModel::class.java)
+    private fun saveAndReturn(): Boolean {
+        findNavController().navigateUp()
+        return true
     }
-
 }
