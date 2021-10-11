@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ict311_task3.data.AppDatabase
-import com.example.ict311_task3.data.SampleDataProvider
+//import com.example.ict311_task3.data.SampleDataProvider
 import com.example.ict311_task3.data.WorkoutEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,23 +17,23 @@ class ListUIViewModel(app: Application) : AndroidViewModel(app) {
     private val database = AppDatabase.getInstance(app)
     val workoutList = database?.workoutDoa()?.getAll()
 
-    fun addSampleData() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val sampleWorkout = SampleDataProvider.getWorkout()
-                database?.workoutDoa()?.insertAll(sampleWorkout)
-            }
-        }
-    }
+//    fun addSampleData() {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//                val sampleWorkout = SampleDataProvider.getWorkout()
+//                database?.workoutDoa()?.insertAll(sampleWorkout)
+//            }
+//        }
+//    }
 
-    fun addWorkout() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-
-
-            }
-        }
-    }
+//    fun addWorkout() {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//
+//
+//            }
+//        }
+//    }
 
 
 

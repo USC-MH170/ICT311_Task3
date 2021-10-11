@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ict311_task3.data.WorkoutEntity
 import com.example.ict311_task3.databinding.ListItemBinding
+import java.lang.String.format
+import android.text.format.DateFormat
+import java.text.SimpleDateFormat
 
 class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
     private val listner: ListItemListener):
@@ -27,10 +30,18 @@ class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val workout = workoutList[position]
         with(holder.binding) {
-            workoutText.text = workout.title
+            workoutTitle.text = workout.title
+            workoutLocation.text = workout.place
+            val dateString = DateFormat.format(DATE_FORMAT, workout.date).toString()
+            workoutDate.text = dateString
             root.setOnClickListener{
                 listner.editWorkout(workout.id)
             }
+
+
+
+
+
             fab.setOnClickListener{
                 if (selectedWorkouts.contains(workout)) {
                     selectedWorkouts.remove(workout)
