@@ -81,8 +81,6 @@ class ListUI : Fragment(),
 
     private fun addNewWorkout(): Boolean {
         editWorkout(NEW_WORKOUT_ID)
-        //below is located in ListUIViewModel + may need to delete when submitting
-        //viewModel.addWorkout()
         return true
     }
 

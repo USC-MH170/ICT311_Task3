@@ -15,10 +15,10 @@ var id:Int,
 var date: Date,
 var title: String,
 var place: String,
-var start: Int,
-var finish: Int,
+var start: String,
+var finish: String,
 var group: Boolean
 ) : Parcelable {
-    constructor(): this(NEW_WORKOUT_ID, Date(), "", "", 0, 0, false)
-    constructor(date: Date, title: String, place: String, start: Int, finish: Int, group: Boolean ): this(NEW_WORKOUT_ID,  date, title, place, start, finish, group)
+    constructor(): this(NEW_WORKOUT_ID, Date(), "", "", "", "", false)
+    constructor(date: Date, title: String, place: String, start: String, finish: String, group: Boolean ): this(NEW_WORKOUT_ID,  date, title, place, start, finish, group)
 }

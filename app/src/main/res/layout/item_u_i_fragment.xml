@@ -7,7 +7,7 @@
     tools:context=".ItemUI">
 
     <EditText
-        android:id="@+id/editor"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -28,7 +28,7 @@
         android:hint="@string/enter_location"
         android:inputType="textCapSentences|textMultiLine"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintTop_toBottomOf="@+id/editor"
+        app:layout_constraintTop_toBottomOf="@+id/title"
         tools:ignore="Autofull"
         tools:layout_editor_absoluteX="16dp"
         tools:text="Place" />
@@ -45,7 +45,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toStartOf="@id/finish"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/date"
         tools:ignore="Autofull"
         tools:text="Start Time" />
 
@@ -59,13 +59,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/start"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/date"
         tools:ignore="Autofull"
         tools:text="Finish Time" />
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

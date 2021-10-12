@@ -9,7 +9,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 
-@Database(entities = [WorkoutEntity::class], version = 2, exportSchema = false)
+@Database(entities = [WorkoutEntity::class], version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun workoutDoa(): WorkoutDao?
@@ -25,7 +25,7 @@ abstract class AppDatabase: RoomDatabase() {
                         AppDatabase::class.java,
                         "workouttracker.db"
                     )
-                        //.fallbackToDestructiveMigration()
+                        .fallbackToDestructiveMigration()
                         .build()
                 }
             }

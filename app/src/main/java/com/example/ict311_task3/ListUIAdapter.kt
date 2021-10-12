@@ -10,7 +10,8 @@ import java.lang.String.format
 import android.text.format.DateFormat
 import java.text.SimpleDateFormat
 
-class ListUIAdapter(private val workoutList: List<WorkoutEntity>,
+class ListUIAdapter(
+    private val workoutList: List<WorkoutEntity>,
     private val listner: ListItemListener):
     RecyclerView.Adapter<ListUIAdapter.ViewHolder>() {
 

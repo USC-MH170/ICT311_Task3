@@ -17,26 +17,6 @@ class ListUIViewModel(app: Application) : AndroidViewModel(app) {
     private val database = AppDatabase.getInstance(app)
     val workoutList = database?.workoutDoa()?.getAll()
 
-//    fun addSampleData() {
-//        viewModelScope.launch {
-//            withContext(Dispatchers.IO) {
-//                val sampleWorkout = SampleDataProvider.getWorkout()
-//                database?.workoutDoa()?.insertAll(sampleWorkout)
-//            }
-//        }
-//    }
-
-//    fun addWorkout() {
-//        viewModelScope.launch {
-//            withContext(Dispatchers.IO) {
-//
-//
-//            }
-//        }
-//    }
-
-
-
     fun deleteWorkout(selectedWorkouts: List<WorkoutEntity>) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
