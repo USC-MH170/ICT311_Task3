@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.ict311_task3.data.DateConverter
 import com.example.ict311_task3.databinding.ItemUIFragmentBinding
+import kotlinx.android.synthetic.main.item_u_i_fragment.view.*
 import java.util.*
 import kotlin.math.log
 
@@ -34,6 +35,9 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
     private lateinit var viewModel: ItemUIViewModel
     private val args: ItemUIArgs by navArgs()
     private lateinit var binding: ItemUIFragmentBinding
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,17 +60,11 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
                 getString(R.string.edit_workout)
             }
 
-
         /*
         viewModel = Data and binding = XML references
         */
         viewModel = ViewModelProvider(this).get(ItemUIViewModel::class.java)
         binding = ItemUIFragmentBinding.inflate(inflater, container, false)
-//        binding.title.setText("")
-//        binding.place.setText("")
-//        binding.start.setText("")
-//        binding.finish.setText("")
-
         /*
                 On Click Liseners
          */
@@ -82,7 +80,6 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
         }
         binding.group.setOnClickListener {
             viewModel.currentWorkout.value?.group = viewModel.currentWorkout.value?.group != true
-
         }
 
 
@@ -99,32 +96,26 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
         )
         /*
         Observes the viewmodel
-
-
         */
         viewModel.currentWorkout.observe(viewLifecycleOwner, Observer {
+            binding.group.apply {isChecked = viewModel.currentWorkout.value?.group == true }
             val savedTitleString = savedInstanceState?.getString(TITLE_TEXT_KEY)
             val savedPlaceString = savedInstanceState?.getString(PLACE_TEXT_KEY)
             val savedStartString = savedInstanceState?.getString(START_TEXT_KEY)
             val savedFinishString = savedInstanceState?.getString(FINISH_TEXT_KEY)
             val savedDateString = savedInstanceState?.getString(DATE_TEXT_KEY)
-            val savedGroupBoolean = savedInstanceState?.getString(GROUP_TEXT_KEY)
+            val savedGroupBoolean = savedInstanceState?.getBoolean(GROUP_TEXT_KEY)
             binding.title.setText(savedTitleString ?: it.title)
             binding.place.setText(savedPlaceString ?: it.place)
             binding.start.setText(savedStartString ?: it.start)
             binding.finish.setText(savedFinishString ?: it.finish)
-            binding.group.apply {isChecked = viewModel.currentWorkout.value?.group == true }
+            binding.group.apply {
+                if (savedGroupBoolean != null) {
+                    isChecked = savedGroupBoolean
+                }
+            }
             binding.date.setText (DateFormat.format(DATE_FORMAT, viewModel.currentWorkout.value?.date).toString())
         })
-
-
-
-
-
-
-
-
-
 
 
 
@@ -143,19 +134,13 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
             outState.putString(PLACE_TEXT_KEY, place.text.toString())
             outState.putString(START_TEXT_KEY, start.text.toString())
             outState.putString(FINISH_TEXT_KEY, finish.text.toString())
-            //outState.putString(DATE_TEXT_KEY, finish.text.toString())
+//            outState.putString(DATE_TEXT_KEY, date.text.toString())
+            outState.putBoolean(GROUP_TEXT_KEY, binding.group.isChecked())
 
-            outState.putBoolean(GROUP_TEXT_KEY, true)
         }
-//        with(binding.place) {
-//            outState.putString(PLACE_TEXT_KEY, text.toString())
-//            outState.putInt(CURSOR_POSITION_KEY2, selectionStart)
-//        }
-
-
-
         super.onSaveInstanceState(outState)
     }
+
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -167,17 +152,16 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
 
 
     private fun saveAndReturn(): Boolean {
-
         //closes soft keyboard
         val imm = requireActivity()
             .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
-
         //updates the text fields
         viewModel.currentWorkout.value?.title = binding.title.text.toString()
         viewModel.currentWorkout.value?.place = binding.place.text.toString()
         viewModel.currentWorkout.value?.start = binding.start.text.toString()
         viewModel.currentWorkout.value?.finish = binding.finish.text.toString()
+        viewModel.currentWorkout.value?.group = binding.group.isChecked
         viewModel.updateWorkout()
         Toast.makeText(context, "Workout Saved", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
@@ -188,10 +172,5 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
         viewModel.currentWorkout.value?.date = date
         binding.date.text = DateFormat.format(DATE_FORMAT, viewModel.currentWorkout.value?.date).toString()
     }
-
-
-
-
-
 
 }
