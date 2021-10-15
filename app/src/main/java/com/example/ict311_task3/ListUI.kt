@@ -1,10 +1,12 @@
 package com.example.ict311_task3
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -77,6 +79,7 @@ class ListUI : Fragment(),
             R.id.new_workout -> addNewWorkout()
             else -> return super.onOptionsItemSelected(item)
         }
+
     }
 
     private fun addNewWorkout(): Boolean {
@@ -85,16 +88,15 @@ class ListUI : Fragment(),
     }
 
     private fun deleteWorkout(): Boolean {
+        Toast.makeText(context, "Workout Deleted", Toast.LENGTH_SHORT).show()
         viewModel.deleteWorkout(adapter.selectedWorkouts)
         Handler(Looper.getMainLooper()).postDelayed({
             adapter.selectedWorkouts.clear()
             requireActivity().invalidateOptionsMenu()
-        }, 100)
 
+        }, 100)
         return true
     }
-
-
 
 
     override fun editWorkout(workoutID: Int) {

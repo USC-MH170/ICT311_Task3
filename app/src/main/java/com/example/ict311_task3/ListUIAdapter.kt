@@ -8,6 +8,7 @@ import com.example.ict311_task3.data.WorkoutEntity
 import com.example.ict311_task3.databinding.ListItemBinding
 import java.lang.String.format
 import android.text.format.DateFormat
+import android.widget.Toast
 import java.text.SimpleDateFormat
 
 class ListUIAdapter(
