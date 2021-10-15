@@ -38,7 +38,6 @@ class DatePickerFragment : DialogFragment() {
         )
     }
 
-
     companion object {
         fun newInstance(date: Date): DatePickerFragment {
             val args = Bundle().apply {

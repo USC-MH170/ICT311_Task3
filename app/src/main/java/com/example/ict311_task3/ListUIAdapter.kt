@@ -39,10 +39,6 @@ class ListUIAdapter(
                 listner.editWorkout(workout.id)
             }
 
-
-
-
-
             fab.setOnClickListener{
                 if (selectedWorkouts.contains(workout)) {
                     selectedWorkouts.remove(workout)
@@ -64,7 +60,6 @@ class ListUIAdapter(
     }
 
     override fun getItemCount() = workoutList.size
-
 
     interface ListItemListener {
         fun editWorkout(workoutID: Int)
