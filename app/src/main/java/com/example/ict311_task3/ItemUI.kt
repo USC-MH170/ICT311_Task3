@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.ProgressDialog.show
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.format.DateFormat
@@ -18,6 +19,7 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -26,7 +28,10 @@ import androidx.navigation.fragment.navArgs
 import com.example.ict311_task3.data.DateConverter
 import com.example.ict311_task3.databinding.ItemUIFragmentBinding
 import kotlinx.android.synthetic.main.item_u_i_fragment.view.*
+import java.time.LocalDate
+import java.time.LocalDate.parse
 import java.util.*
+import java.util.Date.parse
 import kotlin.math.log
 
 
@@ -39,6 +44,7 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -99,12 +105,14 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
         */
         viewModel.currentWorkout.observe(viewLifecycleOwner, Observer {
             binding.group.apply {isChecked = viewModel.currentWorkout.value?.group == true }
+
             val savedTitleString = savedInstanceState?.getString(TITLE_TEXT_KEY)
             val savedPlaceString = savedInstanceState?.getString(PLACE_TEXT_KEY)
             val savedStartString = savedInstanceState?.getString(START_TEXT_KEY)
             val savedFinishString = savedInstanceState?.getString(FINISH_TEXT_KEY)
-            val savedDateString = savedInstanceState?.getString(DATE_TEXT_KEY)
+            val savedDateString = savedInstanceState?.getCharSequence(DATE_TEXT_KEY)
             val savedGroupBoolean = savedInstanceState?.getBoolean(GROUP_TEXT_KEY)
+            binding.date.setText (DateFormat.format(DATE_FORMAT, viewModel.currentWorkout.value?.date).toString())
             binding.title.setText(savedTitleString ?: it.title)
             binding.place.setText(savedPlaceString ?: it.place)
             binding.start.setText(savedStartString ?: it.start)
@@ -114,7 +122,6 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
                     isChecked = savedGroupBoolean
                 }
             }
-            binding.date.setText (DateFormat.format(DATE_FORMAT, viewModel.currentWorkout.value?.date).toString())
         })
 
 
@@ -127,16 +134,13 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
     /*
     Saves instance for rotate
      */
-
     override fun onSaveInstanceState(outState: Bundle) {
         with(binding) {
             outState.putString(TITLE_TEXT_KEY, title.text.toString())
             outState.putString(PLACE_TEXT_KEY, place.text.toString())
             outState.putString(START_TEXT_KEY, start.text.toString())
             outState.putString(FINISH_TEXT_KEY, finish.text.toString())
-//            outState.putString(DATE_TEXT_KEY, date.text.toString())
             outState.putBoolean(GROUP_TEXT_KEY, binding.group.isChecked())
-
         }
         super.onSaveInstanceState(outState)
     }
@@ -149,7 +153,6 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 
     private fun saveAndReturn(): Boolean {
         //closes soft keyboard
@@ -171,6 +174,6 @@ class ItemUI : Fragment(), DatePickerFragment.Callbacks {
     override fun onDateSelected(date: Date) {
         viewModel.currentWorkout.value?.date = date
         binding.date.text = DateFormat.format(DATE_FORMAT, viewModel.currentWorkout.value?.date).toString()
+        viewModel.updateWorkout()
     }
-
 }
